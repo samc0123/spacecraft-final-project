@@ -96,8 +96,4 @@ colorRGB=[1 0 0];
 cirR=rmoon+hm; 
 p1f=viscircles(center,cirR,'Color',colorRGB,'LineWidth',2,'LineStyle','--');
 
-title('Orbit Visualization');
-ylabel('Orbit Distance (m)');
-xlabel('Orbit Distance (m)');
-legend([p1e p1m p1i p1t p1f],'Earth','Moon','Initial Orbit','Transfer Orbit','Final Orbit');
 hold off
