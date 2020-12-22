@@ -6,7 +6,8 @@
 %% Part 0: Constant Initialization
 mu=3.986e14; % Earth's gravitational parameter 
 rE=6.378e6; % m, Earth's Radius
-W=1000/2.205; %kg, mass of spacecraft
+Wlb=1000; % lb, mass of spacecraft
+W=Wlb/2.205; %kg, mass of spacecraft
 hp=600*1.609*1000; %m, height at perigee
 rp=(600*1.609)*1000+rE; %m, radius at perigee
 eps=0.8; % eccentricity
@@ -23,15 +24,14 @@ H=sqrt(mu*a*(1-eps^2)); % kg*m^2/sec, specific angular momentum
 V=sqrt(2*(E+mu/rp)); %m/s, velocity at perigee
 
 % Flight path angle 
-phi=acos(H/(rp*V));
+Rreq=60000*1000; % m, radius @ enterance
+Vreq=10000; % m/s, velocity @ enterance
+phi=acos(H/(Rreq*Vreq));
 
-% Energy on Earth
-aE=rE; % radius of Earth is A
-Ee=-mu/(2*aE); 
+% Thrust 
+mPay=W+856.15; % kg, mass of payload- payload & booster fuel 
+Tmp=thrust(mPay); % separate function 
 
-% Energy Difference 
-ET=abs(E-Ee);
-T=((ET)/(hp))*W;
 
 %% Part 2: Hohmann Transfer 
 % Transfer from 600 mile perigee to 
@@ -43,8 +43,8 @@ va=H/ra; % m/s, circularized orbit velocity
 
 % Radii from Earth 
 % ra- already achieved prior -> dist. of first orbit to earth 
-rmp=rEM-rmoon %m, Earth's center to moon surface
-rmo=rmp-hm; %m, 200 mi. away from the moons orbit, closer to earth 
+rmp=rEM-rmoon; %m, Earth's center to moon surface
+rmo=rmp+hm+2*rmoon;%(ADD for 12 o'clock) %m, 200 mi. away from the moons orbit, closer to earth 
 
 % Transfer Orbit Properties 
 at=(ra+rmo)/2; %m, semi-major axis of the Hohmann transfer orbit 
@@ -76,7 +76,7 @@ p1e=viscircles(center,rE,'Color',colorRGB,'LineWidth',3); % Create circles with 
 % Plot moon
 center=[rEM 0];
 colorRGB=[0 1 0];
-p1m=viscircles(center,rmoon,'Color',colorRGB,'LineWidth',2); % create circles with moon's radius 
+p1m=viscircles(center,rmoon,'Color',colorRGB,'LineWidth',3); % create circles with moon's radius 
 
 % Global theta
 theta=0:0.05:2*pi; % define theta range in small increments
@@ -96,4 +96,14 @@ colorRGB=[1 0 0];
 cirR=rmoon+hm; 
 p1f=viscircles(center,cirR,'Color',colorRGB,'LineWidth',2,'LineStyle','--');
 
+% Set the Earth to be the origin 
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
+
+% Plot labels 
+title('Orbit Visualization');
+ylabel('Orbit Distance (m)');
+xlabel('Orbit Distance (m)');
+legend([p1e p1m p1i p1t p1f],'Earth','Moon','Initial Orbit','Transfer Orbit','Final Orbit');
 hold off
