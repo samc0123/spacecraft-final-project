@@ -29,7 +29,7 @@ Vreq=10000; % m/s, velocity @ enterance
 phi=acos(H/(Rreq*Vreq));
 
 % Thrust & Propellant Mass
-mPay=W+856.15; % kg, mass of payload- payload & booster fuel 
+mPay=W+796.7; % kg, mass of payload- payload & booster fuel 
 Tmp=thrust(mPay); % separate function 
 T=Tmp(1); % N, Falcon 9 Thrust
 mp1=Tmp(2); % kg, Falcon 9 Stage 1 Prop. Mass

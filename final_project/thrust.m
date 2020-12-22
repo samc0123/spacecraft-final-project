@@ -2,7 +2,7 @@ function [T] = thrust(mPay)
 %% Introduction Information
 %{
 * Calculate the thrust produced by the rocket 
-* Taking parameters of the Northrup Grummon Pegasus Launcher 
+* Taking parameters of the SpaceX Falcon 9 Launcher
      - Comparable payload weights 
      - Comparable orbit lift off 
 * Thurst Eqn: F = q × Ve + (Pe - Pa) × Ae
